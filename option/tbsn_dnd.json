@@ -1,0 +1,40 @@
+{
+    // model
+    "model": "APBSNModel",
+    "pd_a": 5,
+    "pd_b": 2,
+    "R3": true,
+    "R3_T": 8,
+    "R3_p": 0.16,
+    // net
+    "networks": [{
+        "name": "bsn",
+        "type": "TBSN",
+        "args": {
+            "in_ch": 3,
+            "out_ch": 3
+        }
+        , "path": "../pretrained_models/model_dnd.pth" // comment this line for train
+    }],
+    // datasets
+    "train_dataset": {
+        "type": "DNDBenchmarkTrainDataset",
+        "args": {
+            "pin_memory": true,
+            "patch_size": 640
+        },
+        "batch_size": 4 // used for base train
+    },
+    "validation_datasets": [{
+        "type": "DNDBenchmarkPNGANDataset",
+        "args": {}
+    }],
+    // training parameters
+    "lr": 3e-4,
+    "print_every": 1000,
+    "save_every": 10000,
+    "validate_every": 20000,
+    "num_iters": 100000,
+    "log_dir": "log",
+    "log_file": "log/log.out"
+}

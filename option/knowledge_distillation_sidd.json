@@ -1,0 +1,45 @@
+{
+    // model
+    "model": "APBSNDistillModel",
+    "pd_a": 5,
+    "pd_b": 2,
+    "R3": true,
+    "R3_T": 1,
+    "R3_p": 0,
+    // net
+    "networks": [{
+        "name": "bsn",
+        "type": "TBSN",
+        "args": {
+            "in_ch": 3,
+            "out_ch": 3
+        }
+        , "path": "../pretrained_models/model_sidd.pth"
+    },{
+        "name": "network",
+        "type": "Unet",
+        "args": {}
+//        , "path": ""
+    }],
+    // datasets
+    "train_dataset": {
+        "type": "SIDDMediumTrainDataset",
+        "args": {
+            "pin_memory": true,
+            "patch_size": 128
+        },
+        "batch_size": 8 // used for base train
+    },
+    "validation_datasets": [{
+        "type": "SIDDValidationDataset",
+        "args": {}
+    }],
+    // training parameters
+    "lr": 3e-4,
+    "print_every": 1000,
+    "save_every": 10000,
+    "validate_every": 10000,
+    "num_iters": 100000,
+    "log_dir": "log",
+    "log_file": "log/log.out"
+}

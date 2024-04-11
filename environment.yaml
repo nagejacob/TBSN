@@ -1,0 +1,19 @@
+name: tbsn
+channels:
+  - pytorch
+  - nvidia
+  - defaults
+dependencies:
+  - python==3.8.18
+  - pytorch==2.0.1
+  - pytorch-cuda=11.8
+  - torchvision==0.15.2
+  - torchaudio==2.0.2
+  - h5py
+  - scikit-image
+  - tqdm
+  - pip:
+      - einops
+      - opencv-python
+
+prefix: tbsn
