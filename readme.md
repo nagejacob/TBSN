@@ -1,4 +1,4 @@
-# TBSN: Transformer-Based Blind-Spot Network for Self-Supervised Image Denoising
+# TBSN: Transformer-Based Blind-Spot Network for Self-Supervised Image Denoising [Arxiv](https://arxiv.org/abs/2404.07846)
 
 
 ## Usage
