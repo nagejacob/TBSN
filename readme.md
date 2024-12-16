@@ -1,4 +1,4 @@
-# TBSN: Transformer-Based Blind-Spot Network for Self-Supervised Image Denoising [Arxiv](https://arxiv.org/abs/2404.07846)
+# Rethinking Transformer-Based Blind-Spot Network for Self-Supervised Image Denoising [Paper](https://arxiv.org/abs/2404.07846)
 
 
 ## Usage
@@ -33,4 +33,15 @@ python base.py --config_file "../option/tbsn_sidd.json"
 Training on SIDD Medium dataset,
 ```
 sh train.sh
+```
+
+## Citation
+If you make use of our work, please cite our paper.
+```bibtex
+@inproceedings{li2025rethinking,
+  title={Rethinking Transformer-Based Blind-Spot Network for Self-Supervised Image Denoising},
+  author={Li, Junyi and Zhang, Zhilu and Zuo, Wangmeng},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  year={2025}
+}
 ```
