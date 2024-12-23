@@ -19,7 +19,6 @@
         "name": "network",
         "type": "Unet",
         "args": {}
-//        , "path": ""
     }],
     // datasets
     "train_dataset": {

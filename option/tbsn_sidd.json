@@ -14,7 +14,7 @@
             "in_ch": 3,
             "out_ch": 3
         }
-//        , "path": "../pretrained_models/model_sidd.pth" // comment this line for train
+        , "path": "../pretrained_models/model_sidd.pth" // comment this line for train
     }],
     // datasets
     "train_dataset": {

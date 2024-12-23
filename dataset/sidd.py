@@ -1,11 +1,15 @@
+import sys
+sys.path.append('..')
 from dataset.base_function import dataset_path, crop_3
 import glob
+import imageio
 import numpy as np
 import os
 from PIL import Image
 import scipy.io as sio
 import torch
 from torch.utils.data import Dataset
+from tqdm import tqdm
 
 sidd_path = os.path.join(dataset_path, 'SIDD')
 
@@ -128,3 +132,20 @@ class SIDDBenchmarkDataset(Dataset):
     def _open_images(self, path):
         mat = sio.loadmat(os.path.join(path, 'SIDD_Benchmark/BenchmarkNoisyBlocksSrgb.mat'))
         self.noisy_block = mat['BenchmarkNoisyBlocksSrgb']
+
+
+# extract sidd validation images
+if __name__ == '__main__':
+    dest_dir = os.path.join(sidd_path, 'SIDD_Validation/ValidationGTImagesSrgb')
+    os.makedirs(dest_dir, exist_ok=True)
+
+    mat = sio.loadmat(os.path.join(sidd_path, 'SIDD_Validation/ValidationNoisyBlocksSrgb.mat'))
+    noisy_block = mat['ValidationNoisyBlocksSrgb']
+    mat = sio.loadmat(os.path.join(sidd_path, 'SIDD_Validation/ValidationGtBlocksSrgb.mat'))
+    gt_block = mat['ValidationGtBlocksSrgb']
+    n = noisy_block.shape[0]
+    k = noisy_block.shape[1]
+    for i in tqdm(range(n)):
+        for j in range(k):
+            gt_img = gt_block[i, j]
+            imageio.imwrite(os.path.join(dest_dir, '%02d_%02d.png' % (i, j)), gt_img)

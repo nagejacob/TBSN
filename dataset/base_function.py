@@ -4,7 +4,7 @@ import socket
 import torch
 
 hostname = socket.gethostname()
-if 'lijunyis-ubuntu' == hostname: # ubuntu
+if 'ubuntu' == hostname: # ubuntu
     dataset_path = '/home/nagejacob/Documents/datasets'
 else: # hpc
     dataset_path = '/mnt/ssd0/anaconda3/lijunyi/datasets'

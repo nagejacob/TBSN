@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c8a9cc0f-1235-4c49-8209-48f0735bf4ef" name="nagejacob@ubuntu:22 key">
+        <fileTransfer accessType="SFTP" host="ubuntu" port="22" sshConfigId="3f9214e4-a38d-400f-9b78-1a77e6c6822b" sshConfig="nagejacob@ubuntu:22 key" keyPair="true" />
+      </webServer>
+      <webServer id="4ea90dd4-58cd-4616-9c94-d56ad4fad3a4" name="hpc">
+        <fileTransfer accessType="SFTP" host="hpc" port="1022" sshConfigId="7b5740ad-7a03-4e35-926a-c11b79de27c2" sshConfig="lijunyi@hpc:1022 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

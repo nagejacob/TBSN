@@ -1,7 +1,8 @@
 import sys
 sys.path.append('..')
 import argparse
-from skimage.metrics import peak_signal_noise_ratio
+import lpips
+from skimage.metrics import peak_signal_noise_ratio, structural_similarity
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -9,23 +10,33 @@ from validate.base_function import calculate_ssim
 from util.build import build
 from util.option import parse, recursive_print
 
+loss_fn_alex = lpips.LPIPS(net='alex').cuda() # best forward scores
+def lpips_norm(img):
+    img = img * 2. - 1
+    return img
+
 def validate_sidd(model, sidd_loader):
-    psnrs, ssims, count = 0, 0, 0
+    psnrs, ssims, lpipss, count = 0, 0, 0, 0
     for data in tqdm(sidd_loader):
         output = model.validation_step(data)
         output = torch.floor(output * 255. + 0.5) / 255.
         output = torch.clamp(output, 0, 1)
+        lpips = loss_fn_alex(lpips_norm(output), lpips_norm(data['H'].cuda()))
         output = output.cpu().squeeze(0).permute(1, 2, 0).numpy()
         gt = data['H'].squeeze(0).permute(1, 2, 0).numpy()
         psnr = peak_signal_noise_ratio(output, gt, data_range=1)
+        ssim = structural_similarity(output, gt, data_range=1, channel_axis=2, gaussian_weights=True, sigma=1.5, win_size=11)
 
         psnrs += psnr
+        ssims += ssim
+        lpipss += lpips
         count += 1
 
-    return psnrs / count, ssims / count
+    return psnrs / count, ssims / count, lpipss / count
 
 def validate_dnd(model, dnd_loader):
     psnrs, ssims, count = 0, 0, 0
+    f = open('')
     for data in tqdm(dnd_loader):
         output = model.validation_step(data)
         output = torch.clamp(output, 0, 1)
@@ -70,12 +81,12 @@ def main(opt):
 
     for validation_loader in validation_loaders:
         if 'SIDD' in validation_loader.dataset.__class__.__name__:
-            psnr, ssim = validate_sidd(model, validation_loader)
+            psnr, ssim, lpips = validate_sidd(model, validation_loader)
         elif 'DND' in validation_loader.dataset.__class__.__name__:
             psnr, ssim = validate_dnd(model, validation_loader)
         else:
             psnr, ssim = validate_synthetic(model, validation_loader)
-        print('%s, psnr: %6.4f, ssim: %6.4f' % (validation_loader.dataset.__class__.__name__, psnr, ssim))
+        print('%s, psnr: %6.4f, ssim: %6.4f, lpips: %.4f' % (validation_loader.dataset.__class__.__name__, psnr, ssim, lpips))
 
 
 if __name__ == '__main__':
