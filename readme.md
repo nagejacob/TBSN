@@ -29,7 +29,7 @@ cd validate
 python base.py --config_file "../option/tbsn_sidd.json"
 ```
 
-### Training (Would be released once the paper is accepted)
+### Training
 Training on SIDD Medium dataset,
 ```
 sh train.sh
